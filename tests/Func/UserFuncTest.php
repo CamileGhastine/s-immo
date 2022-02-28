@@ -9,7 +9,10 @@ use Faker\Factory;
 
 class UserFuncTest extends EndPoint
 {
-    private $userData = ["email"=>"test@test.fr", "roles"=>["ROLE_USER"], "password"=>"password", "firstname"=>"firstname", "lastname"=>"lastname"];
+    /**
+     * TODO
+     */
+    /*private $userData = ["email"=>"test@test.fr", "roles"=>["ROLE_USER"], "password"=>"password", "firstname"=>"firstname", "lastname"=>"lastname"];
     //private $userData = '{"name": "test@test.fr", "password": "password"}';
     public function testGetUsers()
     {
@@ -35,5 +38,5 @@ class UserFuncTest extends EndPoint
     {
         $faker = Factory::create();
         return sprintf($this->userData, $faker->email);
-    }
+    }*/
 }

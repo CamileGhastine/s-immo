@@ -101,11 +101,8 @@ class PropertyTest extends TestCase
         self::assertEquals($value, $this->property->getStatus());
     }
 
-
-
     /*public function testGetValidated() : void
     {
-
         $response = $this->tenant->setValidated();
         //dump("res", $response);
         self::assertInstanceOf(Tenant::class, $response);
