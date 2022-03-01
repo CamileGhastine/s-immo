@@ -2,17 +2,62 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Action\ProfileAction;
+use App\Filters\OrSearchFilter;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     itemOperations={
+ *          "get"={
+ *             "requirements"={"id"="\d+"},
+ *           },
+ *          "put",
+ *          "delete",
+ *          "get_me" = {
+ *              "method"="GET",
+ *              "path"="/users/me",
+ *              "controller"=ProfileAction::class,
+ *              "read"=false,
+ *              "access_control"="is_granted('ROLE_USER')"
+ *          },
+ *     },
+ *     collectionOperations={
+ *      "post"={
+ *          "denormalization_context"={"groups"={"user:create"}},
+ *          "validation_groups"= {"Default", "create"}
+ *      },
+ *     "get"={
+ *          "access_control"="is_granted('ROLE_USER')"
+ *       }
+ *     },
+ *
+ *      attributes={
+ *         "filters"={"user.search_filter"},
+ *     }
+ * )
+ *
+ * @ApiFilter(
+ *     OrSearchFilter::class,
+ *     properties={"id": "partial", "firstName": "partial", "lastName": "partial", "email": "partial"}
+ * )
+ * @ApiFilter(OrderFilter::class)
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(name="`user`")
+ * @UniqueEntity("email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -24,27 +69,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
+     * @Groups("user:create")
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
+     * @Groups("user:create")
      * @ORM\Column(type="json")
      */
     private $roles = [];
 
     /**
+     * @Groups("user:create")
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $password;
 
     /**
+     * @Groups("user:create")
+     * @SerializedName("password")
+     */
+    private $plainPassword = null;
+
+    /**
+     * @Groups("user:create")
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $firstname;
 
     /**
+     * @Groups("user:create")
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $lastname;
@@ -69,6 +128,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $posts;
 
+
     public function __construct()
     {
         $this->fAQs = new ArrayCollection();
@@ -78,6 +138,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 
     public function getEmail(): ?string
