@@ -7,6 +7,7 @@ use App\Repository\LeaseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -15,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Lease
 {
     /**
+     * @Groups({"properties:get"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -22,46 +24,55 @@ class Lease
     private $id;
 
     /**
+     * @Groups({"get:propertie"})
      * @ORM\Column(type="string", length=255)
      */
     private $type;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="float")
      */
     private $rentingAmount;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="datetime")
      */
     private $leasedAt;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="integer")
      */
     private $duration;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $irlDate;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="float", nullable=true)
      */
     private $irl;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="float")
      */
     private $securityDeposit;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="integer")
      */
     private $dateOfPayment;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="array", nullable=true)
      */
     private $guarantor = [];
@@ -110,12 +121,12 @@ class Lease
         return $this;
     }
 
-    public function getLeasedAt(): ?\DateTimeImmutable
+    public function getLeasedAt(): ?\DateTime
     {
         return $this->leasedAt;
     }
 
-    public function setLeasedAt(\DateTimeImmutable $leasedAt): self
+    public function setLeasedAt(\DateTime $leasedAt): self
     {
         $this->leasedAt = $leasedAt;
 

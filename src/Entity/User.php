@@ -39,9 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "denormalization_context"={"groups"={"user:create"}},
  *          "validation_groups"= {"Default", "create"}
  *      },
- *     "get"={
- *          "access_control"="is_granted('ROLE_USER')"
- *       }
+ *     "get"
  *     },
  *
  *      attributes={
@@ -95,14 +93,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $plainPassword = null;
 
     /**
-     * @Groups("user:create")
+     * @Groups("user:create", "post:get")
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $firstname;
 
     /**
-     * @Groups("user:create")
+     * @Groups("user:create", "post:get")
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */

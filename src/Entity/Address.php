@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Address
 {
     /**
+     * @Groups({"properties:get"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -20,31 +22,37 @@ class Address
     private $id;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="integer")
      */
     private $number;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $street;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="integer")
      */
     private $zipCode;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Groups({"properties:get"})
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $additionalAddressInfo;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $city;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $country;

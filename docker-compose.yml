@@ -16,6 +16,30 @@ services:
     depends_on:
       - db
 
+  ###> symfony/mercure-bundle ###
+  caddy:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      # Uncomment the following line to disable HTTPS
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
+      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins "http://localhost:3000"
+        anonymous 1
+        auto_https off
+
+    # Uncomment the following line to enable the development mode
+    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+    ports:
+      - "81:80"
+    volumes:
+      - immo_data:/data
+      - immo_config:/config
+
+
   php:
     build: .
     ports:
@@ -25,3 +49,18 @@ services:
     volumes:
       - ./docker/vhosts:/etc/apache2/sites-enabled
       - ./app:/var/www
+
+  mailer:
+    image: schickling/mailcatcher
+    ports: [ 1025, 1080 ]
+    networks:
+      - immo
+networks:
+  immo:
+
+volumes:
+  ###> symfony/mercure-bundle ###
+  immo_data:
+  immo_config:
+###< symfony/mercure-bundle ###
+

@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Image
 {
     /**
+     * @Groups({"properties:get", "post:get"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -20,21 +22,25 @@ class Image
     private $id;
 
     /**
+     * @Groups({"get:propertie", "properties:get", "post:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $path;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $type;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\ManyToOne(targetEntity=Property::class, inversedBy="images")
      */
     private $property;

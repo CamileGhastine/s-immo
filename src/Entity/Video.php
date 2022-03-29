@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Api\FilterInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -13,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Video
 {
     /**
+     * @Groups({"properties:get", "post:get"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -20,11 +24,13 @@ class Video
     private $id;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $url;
 
     /**
+     * @Groups({"get:propertie", "properties:get", "post:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;

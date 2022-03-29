@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Document
 {
     /**
+     * @Groups({"properties:get"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -20,16 +22,19 @@ class Document
     private $id;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $type;
 
     /**
+     * @Groups({"properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $path;

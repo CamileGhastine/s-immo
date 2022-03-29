@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -20,6 +21,7 @@ class Category
     private $id;
 
     /**
+     * @Groups({"post:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;

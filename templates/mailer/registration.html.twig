@@ -1,0 +1,56 @@
+{% extends 'mailer/global.mailer.html.twig' %}
+
+{% block title %}Welcome to SIMMO website{% endblock %}
+
+{% block content %}
+
+    {% apply inky_to_html %}
+        <spacer size="16"></spacer>
+        <container class="header">
+            <row>
+                <columns>
+                    <h1 class="text-center">Welcome to SIMMO</h1>
+                </columns>
+            </row>
+        </container>
+
+        <container class="body-border">
+            <row>
+                <columns>
+
+                    <spacer size="32"></spacer>
+
+                    <center>
+                        S-IMMO
+                        {# <img src="{{ email.image('') }}" alt="fmc logo">#}
+                    </center>
+
+                    <spacer size="16"></spacer>
+
+                    <h4>Active your account</h4>
+
+                    <p>Welcome to our website, you have already registered form our platform, you still just to active your account  by clicking on the button bellow</p>
+
+                    <center>
+                        <button href="{{ absolute_client_url(registrationPath ~ "?registration_token=" ~ token) }}" class="success">Active my account now</button>
+                    </center>
+
+                    <center>
+                        <menu>
+                            <item href="#">www.rma.fr</item>
+                            <item href="#">Facebook</item>
+                            <item href="#">Twitter</item>
+                            <item href="#">(408)-555-0123</item>
+                        </menu>
+                    </center>
+
+                </columns>
+            </row>
+
+            <spacer size="16"></spacer>
+        </container>
+
+    {% endapply %}
+
+{% endblock %}
+

@@ -7,14 +7,29 @@ use App\Repository\PropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *         "get"={
+ *              "normalization_context"={"groups"={"properties:get"}}
+ *          },
+ *        "post"
+ *     },
+ *     itemOperations={
+ *          "get"={"normalization_context"={"groups"={"get:propertie"}}
+ *     },
+ *     "put",
+ *     "delete"
+ * }
+ * )
  * @ORM\Entity(repositoryClass=PropertyRepository::class)
  */
 class Property
 {
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -22,56 +37,67 @@ class Property
     private $id;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $type;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="float", length=255)
      */
     private $area;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="integer")
      */
     private $numberOfRooms;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="integer")
      */
     private $numberOfBedrooms;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $ecoNote;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $gesNote;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
      */
     private $address;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @Groups({"get:propertie", "properties:get"})
+     * @ORM\Column(type="json", nullable=true)
      */
     private $criteria = [];
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $status;
@@ -82,21 +108,25 @@ class Property
     private $owner;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\OneToOne(targetEntity=Lease::class, mappedBy="property", cascade={"persist", "remove"})
      */
     private $lease;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\OneToMany(targetEntity=Document::class, mappedBy="property")
      */
     private $documents;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="property")
      */
     private $videos;
 
     /**
+     * @Groups({"get:propertie", "properties:get"})
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="property")
      */
     private $images;

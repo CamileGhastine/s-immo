@@ -9,7 +9,7 @@ class ProfileAction extends AbstractController
 {
     public function __invoke(): ?User
     {
-        dd($this->getUser());
+        //dd($this->getUser());
         return $this->getUser();
     }
 }

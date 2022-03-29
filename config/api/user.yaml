@@ -1,0 +1,59 @@
+resources:
+  App\Entity\User:
+    itemOperations:
+      delete: ~
+      get:
+        requirements:
+            id: '\d+'
+      put:
+        denormalization_context:
+          groups: ['user:register']
+      get_me:
+        method: 'GET'
+        path: '/users/me'
+        controller: App\Action\ProfileAction
+        read: false
+        access_control: "is_granted('ROLE_USER')"
+        normalization_context:
+          groups: [ 'user:me' ]
+    collectionOperations:
+      new_user:
+        method: 'POST'
+        path: '/users/registration'
+        controller: App\Action\RegistrationAction
+        read: false
+        validation_groups: [ 'Default','user:registration:post']
+        denormalization_context:
+          groups: ['user:registration:post']
+        normalization_context:
+          groups: ['user:registration:post']
+      registration:
+        method: 'PUT'
+        path: '/users/registration'
+        controller: App\Action\CompleteRegistrationAction
+        read: false
+        validation_groups: ['Default','complete:registration']
+        denormalization_context:
+          groups: ['user:complete:registration']
+      profile:
+        method: 'PUT'
+        path: '/users/profile'
+        controller: App\Action\UpdateProfileAction
+        read: false
+        validation_groups: ['Default', 'user:profile']
+        denormalization_context:
+          groups: ['user:complete:registration']
+      check_registration:
+        method: 'GET'
+        path: '/users/check'
+        controller: App\Action\CheckRegistrationAction
+        read: false
+        validation_groups: ['Default','create']
+      post:
+        denormalization_context:
+          group: ['user:create']
+          validation_groups: ['default', 'create']
+      get:
+        access_control: "is_granted('ROLE_USER')"
+    attributes:
+      filters: ['user.search_filter']

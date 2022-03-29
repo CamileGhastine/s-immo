@@ -7,14 +7,23 @@ use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *         "get"={
+ *              "normalization_context"={"groups"={"post:get"}}
+ *          },
+ *        "post"
+ *     },
+ * )
  * @ORM\Entity(repositoryClass=PostRepository::class)
  */
 class Post
 {
     /**
+     * @Groups({"post:get"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -22,41 +31,49 @@ class Post
     private $id;
 
     /**
+     * @Groups({"post:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Groups({"post:get"})
      * @ORM\Column(type="string", length=255)
      */
     private $description;
 
     /**
+     * @Groups({"post:get"})
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
+     * @Groups({"post:get"})
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
 
     /**
+     * @Groups({"post:get"})
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="post")
      */
     private $videos;
 
     /**
+     * @Groups({"post:get"})
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="post")
      */
     private $images;
 
     /**
+     * @Groups({"post:get"})
      * @ORM\OneToMany(targetEntity=Category::class, mappedBy="post")
      */
     private $categories;
 
     /**
+     * @Groups({"post:get"})
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
      */
     private $user;
